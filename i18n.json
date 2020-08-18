@@ -1,0 +1,15 @@
+{
+    "allLanguages": [
+        "th",
+        "en"
+    ],
+    "defaultLanguage": "th",
+    "currentPagesDir": "pages_",
+    "finalPagesDir": "pages",
+    "localesPath": "locales",
+    "pages": {
+        "*": [
+            "common"
+        ]
+    }
+}

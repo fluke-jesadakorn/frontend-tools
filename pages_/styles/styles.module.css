@@ -1,0 +1,41 @@
+/* body {
+    margin: 0;
+    padding: 0;
+} */
+
+.container {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(4, 1fr);
+    background-color: seagreen;
+    grid-gap: 5px;
+    padding: 1px;
+}
+
+.navBar {
+    grid-column: span 12;
+    background-color: yellowgreen;
+}
+
+.header {
+    grid-column: 2/12;
+    background-color: palegoldenrod;
+}
+
+.content {
+    grid-column: 2/12;
+    background-color: paleturquoise;
+}
+
+.box {
+    height: 100%;
+    margin: 0;
+    box-sizing: border-box;
+    background-color: red;
+
+}
+
+.footer {
+    grid-column: span 12;
+    background-color: purple;
+}
