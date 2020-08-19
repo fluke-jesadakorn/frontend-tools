@@ -8,7 +8,7 @@ const Index = () => {
 
     return (
         <div>
-            
+            Test
         </div>
     )
 }

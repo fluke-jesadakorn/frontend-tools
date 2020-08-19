@@ -55,6 +55,9 @@ const Index = () => {
         return (
             <div className={styles.content} >
                 <div
+                    className={styles.editable}
+                    placeholder="เริ่มเขียนเนื้อเรื่อง"
+                    onClick={(e) => e.currentTarget.focus()}
                     contentEditable="true"
                     onInput={(e) => console.log(e.currentTarget.innerText)}
                 >
