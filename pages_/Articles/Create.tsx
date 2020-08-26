@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect, createElement, } from 'react';
 import useTranslation from 'next-translate/useTranslation';
-import styles from '../styles/styles.module.css';
 import { useCookies } from 'react-cookie';
 import { Rnd } from 'react-rnd';
 
@@ -20,7 +19,6 @@ const Index = () => {
         width: 0,
         height: 0,
     })
-
 
     const dynamicCreate = () => {
         return (
@@ -46,29 +44,30 @@ const Index = () => {
                     }))
                 }}
             >
-                <div className={styles.box}>TEst</div>
+                <div className="box">TEst</div>
             </Rnd>
         )
     }
 
     const Paper = () => {
         return (
-            <div className={styles.content} >
-                <div
-                    className={styles.editable}
+            <div className="content">
+                <p
+                    ref={ref}
+                    className="editable"
                     placeholder="เริ่มเขียนเนื้อเรื่อง"
                     onClick={(e) => e.currentTarget.focus()}
                     contentEditable="true"
                     onInput={(e) => console.log(e.currentTarget.innerText)}
                 >
-                </div>
-                <div className={styles.tools}>
-                    <button className={styles.tool}>เว้นวรรค</button>
-                    <button className={styles.tool}>เลื่อนซ้าย</button>
-                    <button className={styles.tool}>เลื่อนขวา</button>
-                    <button className={styles.tool}>ขึ้นบน</button>
-                    <button className={styles.tool}>ลงล่าง</button>
-                    <button className={styles.tool}>ขึ้นบรรทัดใหม่</button>
+                </p>
+                <div className="tools">
+                    <button className="tool">เว้นวรรค</button>
+                    <button className="tool">เลื่อนซ้าย</button>
+                    <button className="tool">เลื่อนขวา</button>
+                    <button className="tool">ขึ้นบน</button>
+                    <button className="tool">ลงล่าง</button>
+                    <button className="tool">ขึ้นบรรทัดใหม่</button>
                 </div>
             </div>
         )
@@ -79,17 +78,14 @@ const Index = () => {
     }, [])
 
     return (
-        <div className={styles.container}>
-            <div ref={ref} className={styles.navBar}>
-                <img height="100%" src="/icon/Hamburger_icon.svg.png" alt="Hambuger Menu" />
-            </div>
-            <h1 className={styles.headerLabel}>หัวข้อ</h1>
-            <input className={styles.header} />
-            <h2 className={styles.contentLabel}>เนื้อหา</h2>
+        <div className="container">
+            <h1 className="headerLabel">หัวข้อ</h1>
+            <input className="header" />
+            <h2 className="contentLabel">เนื้อหา</h2>
             <Paper />
-            <div className={styles.footer}></div>
-            {false && <button onClick={() => console.log(cookie)}>Test</button>}
-        </div>
+            <div className="footer"></div>
+            {/* {true && <button onClick={() => ref.current.appendChild(document.createTextNode('sss'))}>Test</button>} */}
+        </div >
     )
 }
 

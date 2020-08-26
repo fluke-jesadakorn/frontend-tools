@@ -1,16 +1,42 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import useTranslation from 'next-translate/useTranslation'
-import styles from './styles/styles.module.css'
+import User from '../utils/context';
+import * as firebase from 'firebase/app'
+import 'firebase/firebase-database';
+import 'firebase/auth';
+import config from '../utils/config'
+
+if (!firebase.apps.length) firebase.initializeApp(config)
 
 const Index = () => {
+    const stateUser = useContext(User)
     const { t } = useTranslation()
     const title: string = t`common:title`
 
+    React.useEffect(() => {
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                stateUser.setUser(user)
+            } else {
+                stateUser.setUser(null)
+            }
+        })
+
+    }, [])
+
     return (
-        <div>
-            Test
+        <div className="index-container">
+            <div className="yin">
+                <div className="yang-circle">
+
+                </div>
+                <div className="yin-circle">
+
+                </div>
+            </div>
         </div>
     )
 }
+
 
 export default Index
