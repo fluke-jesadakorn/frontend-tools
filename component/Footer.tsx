@@ -1,9 +1,8 @@
 import React from 'react'
 
-const Footer = ({ children }) => {
+const Footer = () => {
     return (
-        <div>
-            {children}
+        <div className="footer-container">
             Copyright
         </div>
     )

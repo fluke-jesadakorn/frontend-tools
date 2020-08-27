@@ -17,12 +17,13 @@ const MyApp = ({ Component, pageProps }) => {
     return (
         <UserContext.Provider value={{ user, setUser }}>
             <CookiesProvider>
-                <NavigationBar>
-                    <Footer>
+                <div className="app-container">
+                    <NavigationBar>
                         <Component {...pageProps} />
-                        <style>{`body{margin:0;padding:0;}`}</style>
-                    </Footer>
-                </NavigationBar>
+                        <style jsx global>{`body{margin:0;padding:0;}`}</style>
+                    </NavigationBar>
+                    <Footer />
+                </div>
             </CookiesProvider>
         </UserContext.Provider>
     )
