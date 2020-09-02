@@ -26,17 +26,12 @@ const Index = () => {
 
     return (
         <div className="index-container">
-            <div className="yin">
-                <div className="yang-circle">
-
-                </div>
-                <div className="yin-circle">
-
-                </div>
-            </div>
+            <section className="header">
+                <h1>webiwrite</h1>
+                <h2>สร้างเว็บไซต์ได้ง่ายเพียงปลายนิ้ว</h2>
+            </section>
         </div>
     )
 }
-
 
 export default Index

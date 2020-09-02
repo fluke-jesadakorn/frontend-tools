@@ -51,23 +51,22 @@ const Index = () => {
 
     const Paper = () => {
         return (
-            <div className="content">
+            <div className="create-content">
                 <p
                     ref={ref}
-                    className="editable"
+                    className="create-editable"
                     placeholder="เริ่มเขียนเนื้อเรื่อง"
-                    onClick={(e) => e.currentTarget.focus()}
                     contentEditable="true"
                     onInput={(e) => console.log(e.currentTarget.innerText)}
                 >
                 </p>
-                <div className="tools">
-                    <button className="tool">เว้นวรรค</button>
-                    <button className="tool">เลื่อนซ้าย</button>
-                    <button className="tool">เลื่อนขวา</button>
-                    <button className="tool">ขึ้นบน</button>
-                    <button className="tool">ลงล่าง</button>
-                    <button className="tool">ขึ้นบรรทัดใหม่</button>
+                <div className="create-tools">
+                    <button className="create-tool">เว้นวรรค</button>
+                    <button className="create-tool">เลื่อนซ้าย</button>
+                    <button className="create-tool">เลื่อนขวา</button>
+                    <button className="create-tool">ขึ้นบน</button>
+                    <button className="create-tool">ลงล่าง</button>
+                    <button className="create-tool">ขึ้นบรรทัดใหม่</button>
                 </div>
             </div>
         )
@@ -78,12 +77,11 @@ const Index = () => {
     }, [])
 
     return (
-        <div className="container">
-            <h1 className="headerLabel">หัวข้อ</h1>
-            <input className="header" />
-            <h2 className="contentLabel">เนื้อหา</h2>
+        <div className="create-container">
+            <h1 className="create-headerLabel">หัวข้อ</h1>
+            <input className="create-header" />
+            <h2 className="create-contentLabel">เนื้อหา</h2>
             <Paper />
-            <div className="footer"></div>
             {/* {true && <button onClick={() => ref.current.appendChild(document.createTextNode('sss'))}>Test</button>} */}
         </div >
     )

@@ -30,6 +30,7 @@
     "next": "^9.4.4",
     "next-cookies": "^2.0.3",
     "next-translate": "^0.17.2",
+    "preact": "^10.4.8",
     "react": "^16.13.1",
     "react-cookie": "^4.0.3",
     "react-dom": "^16.13.1",

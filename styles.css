@@ -3,17 +3,26 @@
     padding: 0;
 } */
 
-.app-container {
+/* navbar */
+
+.root-container {
     display: grid;
-    grid-auto-columns: auto;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: auto auto auto;
+    width: 100%;
 }
 
 .navbar-container {
+    grid-column: span 12;
+}
+
+.menu-navbar-container {
     display: none;
     flex-direction: column;
     justify-content: space-around;
     background-color: #000;
     align-items: center;
+    align-content: center;
     color: #FFF;
 }
 
@@ -27,10 +36,13 @@ div.hamburger-container {
         display: none;
         background: #000;
     }
-    .navbar-container {
+    div.menu-navbar-container {
+        grid-column: span 12;
         display: flex;
         flex-direction: row;
         justify-content: space-around;
+        align-content: center;
+        align-items: center;
         background-color: #000;
         align-items: center;
         color: #FFF;
@@ -44,51 +56,55 @@ img.hamburger {
     filter: invert(100%);
 }
 
-.navbar-container>span {
+.menu-navbar-container>span {
     font-family: 'Itim', cursive;
     margin: 5px;
 }
 
+/* index */
+
 .index-container {
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    margin: 0;
+    display: grid;
+    background: hsl(0, 0%, 90%);
+    grid-column: span 12;
+    grid-template-columns: repeat(12, 1fr);
 }
 
-.yin {
-    position: absolute;
-    background-color: #000;
-    height: 100%;
-    width: 50%;
-    z-index: -1;
+.index-container>.header {
+    grid-row: 2/3;
+    grid-column: span 12;
+    justify-self: center;
+    font-size: larger;
 }
 
-.yin-circle {
-    position: static;
-    background: #000;
-    margin: 0 0 0 50%;
-    width: 100%;
-    height: 50%;
-    border-radius: 50%;
-    color: #FFF;
+/* articles */
+
+.articles-container {
+    grid-column: span 12;
+    display: grid;
+    grid-template-rows: 100px 500px 800px;
+    grid-template-columns: repeat(12, 1fr);
 }
 
-.yang-circle {
-    position: static;
-    background: #FFF;
-    margin: 0 0 0 50%;
-    width: 100%;
-    height: 50%;
-    border-radius: 50%;
-    margin-right: 50%;
-    bottom: 0;
-    color: #000;
+.hilight, .list-news-card {
+    grid-column: span 6;
+    background: rgb(153, 152, 152);
 }
 
-.container {
-    width: 100%;
-    height: 100%;
+.banner {
+    grid-column: span 12;
+    background: #242526;
+}
+
+.list-string-news {
+    grid-column: span 12;
+    background: #5a5f64;
+}
+
+/* create */
+
+.create-container {
+    grid-column: span 12;
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     grid-template-rows: 25px 100px 50px 400px 50px;
@@ -96,20 +112,14 @@ img.hamburger {
     color: black;
 }
 
-.navBar {
-    grid-column: span 12;
-    grid-row: span 1;
-    background-color: gray;
-}
-
-.headerLabel {
+.create-headerLabel {
     grid-column: span 12;
     margin-top: 50px;
     justify-self: center;
     align-self: center;
 }
 
-.header {
+.create-header {
     grid-column: 2/12;
     grid-row: span 1;
     height: 40px;
@@ -118,20 +128,13 @@ img.hamburger {
     font-size: large;
 }
 
-.contentLabel {
+.create-contentLabel {
     grid-column: span 12;
     justify-self: center;
     align-self: center;
 }
 
-.box {
-    height: 100%;
-    margin: 0;
-    box-sizing: border-box;
-    background-color: red;
-}
-
-.content {
+.create-content {
     grid-column: 1/13;
     background-color: hsla(0, 0%, 97%, 1);
     display: flex;
@@ -140,18 +143,18 @@ img.hamburger {
     font-size: 50px;
 }
 
-.editable[contentEditable="true"]:empty:before {
+.create-editable[contentEditable="true"]:empty:before {
     content: attr(placeholder);
 }
 
-.tools {
+.create-tools {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: flex-end;
 }
 
-.tool {
+.create-tool {
     background-color: hsla(0, 0%, 90%, 1);
     border-color: black;
     border-style: double;
@@ -159,12 +162,9 @@ img.hamburger {
     height: 50px;
 }
 
-.footer {
-    grid-column: span 12;
-    background-color: #d4d4d4;
-}
-
 .footer-container {
-    position: relative;
-    bottom: 0;
+    grid-column: span 12;
+    background: #000;
+    color: #FFF;
+    height: 50px;
 }
