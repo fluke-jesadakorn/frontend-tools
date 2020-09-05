@@ -9,7 +9,6 @@
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     grid-template-rows: auto auto auto;
-    width: 100%;
 }
 
 .navbar-container {
@@ -64,6 +63,7 @@ img.hamburger {
 /* index */
 
 .index-container {
+    min-height: calc(90vh);
     display: grid;
     background: hsl(0, 0%, 90%);
     grid-column: span 12;
@@ -106,32 +106,22 @@ img.hamburger {
 .create-container {
     grid-column: span 12;
     display: grid;
+    border-radius: 5px;
     grid-template-columns: repeat(12, 1fr);
-    grid-template-rows: 25px 100px 50px 400px 50px;
+    grid-template-rows: auto auto auto;
     background-color: hsl(0, 0%, 90%);
     color: black;
-}
-
-.create-headerLabel {
-    grid-column: span 12;
-    margin-top: 50px;
-    justify-self: center;
-    align-self: center;
+    padding: 10px;
 }
 
 .create-header {
-    grid-column: 2/12;
+    grid-column: span 12;
     grid-row: span 1;
     height: 40px;
-    border-color: #242526;
     align-self: center;
+    border-radius: 5px;
     font-size: large;
-}
-
-.create-contentLabel {
-    grid-column: span 12;
-    justify-self: center;
-    align-self: center;
+    background: #FFF;
 }
 
 .create-content {
@@ -143,11 +133,27 @@ img.hamburger {
     font-size: 50px;
 }
 
-.create-editable[contentEditable="true"]:empty:before {
+.create-editable {
+    grid-column: span 12;
+    display: flex;
+    min-height: 70vh;
+    flex-direction: column;
+    background-color: hsla(0, 0%, 97%, 1);
+}
+
+.create-header:empty:not(:focus):before {
+    font-size: 30px;
+    content: attr(placeholder);
+}
+
+.create-editable:empty:not(:focus):before {
+    font-size: 20px;
     content: attr(placeholder);
 }
 
 .create-tools {
+    grid-column: span 12;
+    grid-row: 3/4;
     display: flex;
     flex-direction: row;
     justify-content: space-between;

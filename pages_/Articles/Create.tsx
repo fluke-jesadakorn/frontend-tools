@@ -1,12 +1,17 @@
-import React, { useRef, useState, useEffect, createElement, } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import useTranslation from 'next-translate/useTranslation';
 import { useCookies } from 'react-cookie';
 import { Rnd } from 'react-rnd';
+import ContentEditable from 'react-contenteditable'
 
 const Index = () => {
     const { t } = useTranslation()
-    const ref = useRef()
-    const title: string = t(`common:title`)
+    const titleRef = useRef()
+    const contentRef = useRef()
+    // const title: string = t(`common:title`)
+    const [title, setTitle] = useState("")
+    const [content, setContent] = useState("")
+
     const [cookie, setCookie] = useCookies(["position"])
     const [drag, setDrag] = useState<{
         x?: string | number;
@@ -49,27 +54,12 @@ const Index = () => {
         )
     }
 
-    const Paper = () => {
-        return (
-            <div className="create-content">
-                <p
-                    ref={ref}
-                    className="create-editable"
-                    placeholder="เริ่มเขียนเนื้อเรื่อง"
-                    contentEditable="true"
-                    onInput={(e) => console.log(e.currentTarget.innerText)}
-                >
-                </p>
-                <div className="create-tools">
-                    <button className="create-tool">เว้นวรรค</button>
-                    <button className="create-tool">เลื่อนซ้าย</button>
-                    <button className="create-tool">เลื่อนขวา</button>
-                    <button className="create-tool">ขึ้นบน</button>
-                    <button className="create-tool">ลงล่าง</button>
-                    <button className="create-tool">ขึ้นบรรทัดใหม่</button>
-                </div>
-            </div>
-        )
+    const handleEditableTitle = e => {
+        setTitle(e.target.value)
+    }
+
+    const handleEditableContent = e => {
+        setContent(e.target.value)
     }
 
     useEffect(() => {
@@ -78,12 +68,45 @@ const Index = () => {
 
     return (
         <div className="create-container">
-            <h1 className="create-headerLabel">หัวข้อ</h1>
-            <input className="create-header" />
-            <h2 className="create-contentLabel">เนื้อหา</h2>
-            <Paper />
+            <ContentEditable
+                placeholder="ชื่อเรื่อง"
+                className="create-header"
+                innerRef={titleRef}
+                disabled={false}
+                html={title} // innerHTML of the editable div
+                onChange={handleEditableTitle} // handle innerHTML change
+                tagName='h1'
+                onFocus={e => e.currentTarget.focus()}
+            />
+
+            <div className="create-tools">
+                <button className="create-tool">เว้นวรรค</button>
+                <button className="create-tool">เลื่อนซ้าย</button>
+                <button className="create-tool">เลื่อนขวา</button>
+                <button className="create-tool">ขึ้นบน</button>
+                <button className="create-tool">ลงล่าง</button>
+                <button className="create-tool">ขึ้นบรรทัดใหม่</button>
+            </div>
+
+            <ContentEditable
+                placeholder="เริ่มเขียนบทความ"
+                className="create-editable"
+                title="content"
+                innerRef={contentRef}
+                html={content} // innerHTML of the editable div
+                onChange={handleEditableContent} // handle innerHTML change
+                tagName='p'
+                onFocus={e => e.currentTarget.focus()}
+            />
+
             {/* {true && <button onClick={() => ref.current.appendChild(document.createTextNode('sss'))}>Test</button>} */}
-        </div >
+            {true && <button onClick={() => {
+                // <img src="https://images.all-free-download.com/images/graphiclarge/blue_abstract_background_310971.jpg"/>
+                setContent(`${content}<img src="https://images.all-free-download.com/images/graphiclarge/blue_abstract_background_310971.jpg"/>`)
+            }}>Test</button>}
+            {/* {true && <button onClick={() => console.log(content)}>Test</button>} */}
+            {/* {true && <button onClick={() => { }}>Focus</button>} */}
+        </div>
     )
 }
 
