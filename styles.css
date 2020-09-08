@@ -151,6 +151,14 @@ img.hamburger {
     content: attr(placeholder);
 }
 
+.add-img {
+    display: block;
+    width: 50px;
+    height: 50px;
+    z-index: 50;
+    background: yellow;
+}
+
 .create-tools {
     grid-column: span 12;
     grid-row: 3/4;

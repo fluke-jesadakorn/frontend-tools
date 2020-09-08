@@ -3,11 +3,13 @@ import useTranslation from 'next-translate/useTranslation';
 import { useCookies } from 'react-cookie';
 import { Rnd } from 'react-rnd';
 import ContentEditable from 'react-contenteditable'
+import cheerio from 'cheerio'
 
 const Index = () => {
     const { t } = useTranslation()
     const titleRef = useRef()
     const contentRef = useRef()
+    const [showtools, setShowtools] = useState(false)
     // const title: string = t(`common:title`)
     const [title, setTitle] = useState("")
     const [content, setContent] = useState("")
@@ -62,8 +64,23 @@ const Index = () => {
         setContent(e.target.value)
     }
 
+    const Tools = () => {
+        return (
+            <div className="add-img">
+                <div className="img">
+
+                </div>
+            </div>
+        )
+    }
+
+    const handleTools = () => {
+        console.log(contentRef.current)
+    }
+
     useEffect(() => {
         if (cookie.position) setDrag(cookie.position)
+        contentRef.current.addEventListener('keydown', (e) => { if (e.which == 9) e.preventDefault(); console.log(e) })
     }, [])
 
     return (
@@ -93,10 +110,17 @@ const Index = () => {
                 className="create-editable"
                 title="content"
                 innerRef={contentRef}
-                html={content} // innerHTML of the editable div
-                onChange={handleEditableContent} // handle innerHTML change
+                html={content}
+                onChange={(e) => {
+                    handleEditableContent(e)
+                    // console.log(contentRef.current.lastElementChild)
+                }}
                 tagName='p'
-                onFocus={e => e.currentTarget.focus()}
+                onFocus={e => {
+                    e.currentTarget.focus()
+                    setShowtools(true)
+                }}
+                onBlur={e => setShowtools(false)}
             />
 
             {/* {true && <button onClick={() => ref.current.appendChild(document.createTextNode('sss'))}>Test</button>} */}
@@ -104,7 +128,7 @@ const Index = () => {
                 // <img src="https://images.all-free-download.com/images/graphiclarge/blue_abstract_background_310971.jpg"/>
                 setContent(`${content}<img src="https://images.all-free-download.com/images/graphiclarge/blue_abstract_background_310971.jpg"/>`)
             }}>Test</button>}
-            {/* {true && <button onClick={() => console.log(content)}>Test</button>} */}
+            {true && <button onClick={handleTools}>Ref</button>}
             {/* {true && <button onClick={() => { }}>Focus</button>} */}
         </div>
     )
