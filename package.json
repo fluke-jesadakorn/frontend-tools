@@ -12,10 +12,10 @@
     "build": "next build",
     "start": "next start",
     "export": "next export",
-    "out": "yarn build && yarn export"
+    "out": "yarn build && yarn export",
+    "deploy": "yarn out && firebase deploy"
   },
   "dependencies": {
-    "@zeit/next-css": "^1.0.1",
     "axios": "^0.20.0",
     "firebase": "^7.18.0",
     "js-cookie": "^2.2.1",
@@ -24,6 +24,7 @@
     "react": "^16.13.1",
     "react-contenteditable": "^3.3.5",
     "react-dom": "^16.13.1",
+    "react-lines-ellipsis": "^0.14.1",
     "react-rnd": "^10.2.2",
     "react-show-more-text": "^1.4.4"
   }
