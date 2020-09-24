@@ -1,11 +1,38 @@
 import React from 'react'
-import axios from 'axios'
 import Card from '../component/Card'
 import AdSense from 'react-adsense';
+import Context from '../utils/context'
+// import * as firebase from 'firebase/app'
+import 'firebase/firebase-database';
+import 'firebase/auth';
+import 'firebase/storage';
+import 'firebase/firestore';
 
 const Index = ({ news }) => {
+    const { firebase } = React.useContext(Context)
 
-    const { articles } = news
+    const [lists, setLists] = React.useState({})
+    const [articles, setArticles] = React.useState([
+        {
+            title: "",
+            urlToImage: "",
+            description: "",
+        }
+    ])
+
+    // const { articles } = news
+
+    const initialValue = async () => {
+        let temp = []
+        const ref = await firebase.firestore().collection('articles').limit(5).get()
+        if (!ref.empty) {
+            ref.forEach(res => temp.push(res.data()))
+            setArticles(temp)
+        } else {
+            console.log('Empty Value')
+        }
+        console.log(temp)
+    }
 
     React.useEffect(() => {
         try {
@@ -13,19 +40,20 @@ const Index = ({ news }) => {
         } catch (err) {
             console.log(err);
         }
+        initialValue()
     }, []);
 
     return (
         <div className="articles-container">
 
             <div className="banner">
-                {/* <ins
+                <ins
                     className="adsbygoogle adbanner-customize"
                     style={{
                         display: "block"
                     }}
                     data-ad-client="8999924984179147"
-                /> */}
+                />
             </div>
             <div className="hilight">
                 <div>
@@ -165,78 +193,82 @@ const Index = ({ news }) => {
 Index.getInitialProps = async () => {
     // const result = await axios.get(`http://newsapi.org/v2/everything?q=bitcoin&from=2020-08-21&sortBy=publishedAt&apiKey=0dd17e86f06247fca94954754a3c5860`)
     // return {news: result.data }
+
     const articles = [
         {
             title: "lasdskadfpsdmcpvlmdsvpms",
             urlToImage: "https://images.unsplash.com/photo-1560420713-b279b33e9abf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1951&q=80",
             description: "texxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxt"
         },
-        {
-            title: "lasdskadfpsdmcpvlmdsvpms",
-            urlToImage: "https://images.unsplash.com/photo-1600711269860-ff440f53ed42?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80",
-            description: "texxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxt"
-        },
-        {
-            title: "lasdskadfpsdmcpvlmdsvpms",
-            urlToImage: "https://images.unsplash.com/photo-1574349992039-de3cd48c4172?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=675&q=80",
-            description: "texxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxt"
-        },
-        {
-            title: "lasdskadfpsdmcpvlmdsvpms",
-            urlToImage: "https://images.unsplash.com/photo-1599179747782-d87446e88d1c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80",
-            description: "texxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxt"
-        },
-        {
-            title: "lasdskadfpsdmcpvlmdsvpms",
-            urlToImage: "https://images.unsplash.com/photo-1592342743932-4ff3f37ccb95?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
-            description: "texxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxt"
-        },
-        {
-            title: "lasdskadfpsdmcpvlmdsvpms",
-            urlToImage: "https://images.unsplash.com/photo-1576069458552-470a05f63d91?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80",
-            description: "texxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxt"
-        },
-        {
-            title: "lasdskadfpsdmcpvlmdsvpms",
-            urlToImage: "https://images.unsplash.com/photo-1580057751243-3224a43ac851?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80",
-            description: "texxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxt"
-        },
-        {
-            title: "lasdskadfpsdmcpvlmdsvpms",
-            urlToImage: "https://images.unsplash.com/photo-1519449468716-d66efc34b8fb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
-            description: "texxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxt"
-        },
-        {
-            title: "lasdskadfpsdmcpvlmdsvpms",
-            urlToImage: "https://s.isanook.com/ca/0/ui/279/1396205/s__152616986_1562561122.jpg",
-            description: "texxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxt"
-        },
-        {
-            title: "lasdskadfpsdmcpvlmdsvpms",
-            urlToImage: "https://s.isanook.com/ca/0/ui/279/1396205/s__152616986_1562561122.jpg",
-            description: "texxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxt"
-        },
-        {
-            title: "lasdskadfpsdmcpvlmdsvpms",
-            urlToImage: "https://s.isanook.com/ca/0/ui/279/1396205/s__152616986_1562561122.jpg",
-            description: "texxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxt"
-        },
-        {
-            title: "lasdskadfpsdmcpvlmdsvpms",
-            urlToImage: "https://s.isanook.com/ca/0/ui/279/1396205/s__152616986_1562561122.jpg",
-            description: "texxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxt"
-        },
-        {
-            title: "lasdskadfpsdmcpvlmdsvpms",
-            urlToImage: "https://s.isanook.com/ca/0/ui/279/1396205/s__152616986_1562561122.jpg",
-            description: "texxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxt"
-        },
-        {
-            title: "lasdskadfpsdmcpvlmdsvpms",
-            urlToImage: "https://s.isanook.com/ca/0/ui/279/1396205/s__152616986_1562561122.jpg",
-            description: "texxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxt"
-        },
     ]
+    //     {
+    //         title: "lasdskadfpsdmcpvlmdsvpms",
+    //         urlToImage: "https://images.unsplash.com/photo-1600711269860-ff440f53ed42?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80",
+    //         description: "texxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxt"
+    //     },
+    //     {
+    //         title: "lasdskadfpsdmcpvlmdsvpms",
+    //         urlToImage: "https://images.unsplash.com/photo-1574349992039-de3cd48c4172?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=675&q=80",
+    //         description: "texxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxt"
+    //     },
+    //     {
+    //         title: "lasdskadfpsdmcpvlmdsvpms",
+    //         urlToImage: "https://images.unsplash.com/photo-1599179747782-d87446e88d1c?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=967&q=80",
+    //         description: "texxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxt"
+    //     },
+    //     {
+    //         title: "lasdskadfpsdmcpvlmdsvpms",
+    //         urlToImage: "https://images.unsplash.com/photo-1592342743932-4ff3f37ccb95?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
+    //         description: "texxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxt"
+    //     },
+    //     {
+    //         title: "lasdskadfpsdmcpvlmdsvpms",
+    //         urlToImage: "https://images.unsplash.com/photo-1576069458552-470a05f63d91?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80",
+    //         description: "texxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxt"
+    //     },
+    //     {
+    //         title: "lasdskadfpsdmcpvlmdsvpms",
+    //         urlToImage: "https://images.unsplash.com/photo-1580057751243-3224a43ac851?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=634&q=80",
+    //         description: "texxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxt"
+    //     },
+    //     {
+    //         title: "lasdskadfpsdmcpvlmdsvpms",
+    //         urlToImage: "https://images.unsplash.com/photo-1519449468716-d66efc34b8fb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80",
+    //         description: "texxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxt"
+    //     },
+    //     {
+    //         title: "lasdskadfpsdmcpvlmdsvpms",
+    //         urlToImage: "https://s.isanook.com/ca/0/ui/279/1396205/s__152616986_1562561122.jpg",
+    //         description: "texxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxt"
+    //     },
+    //     {
+    //         title: "lasdskadfpsdmcpvlmdsvpms",
+    //         urlToImage: "https://s.isanook.com/ca/0/ui/279/1396205/s__152616986_1562561122.jpg",
+    //         description: "texxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxt"
+    //     },
+    //     {
+    //         title: "lasdskadfpsdmcpvlmdsvpms",
+    //         urlToImage: "https://s.isanook.com/ca/0/ui/279/1396205/s__152616986_1562561122.jpg",
+    //         description: "texxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxt"
+    //     },
+    //     {
+    //         title: "lasdskadfpsdmcpvlmdsvpms",
+    //         urlToImage: "https://s.isanook.com/ca/0/ui/279/1396205/s__152616986_1562561122.jpg",
+    //         description: "texxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxt"
+    //     },
+    //     {
+    //         title: "lasdskadfpsdmcpvlmdsvpms",
+    //         urlToImage: "https://s.isanook.com/ca/0/ui/279/1396205/s__152616986_1562561122.jpg",
+    //         description: "texxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxt"
+    //     },
+    //     {
+    //         title: "lasdskadfpsdmcpvlmdsvpms",
+    //         urlToImage: "https://s.isanook.com/ca/0/ui/279/1396205/s__152616986_1562561122.jpg",
+    //         description: "texxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxt"
+    //     },
+    // ]
+
+    // return { news: { articles: articles } }
 
     return { news: { articles: articles } }
 }

@@ -5,6 +5,7 @@ import * as firebase from 'firebase/app'
 import 'firebase/firebase-database';
 import 'firebase/auth';
 import 'firebase/storage';
+import 'firebase/firestore';
 import config from '../utils/config'
 import Context from '../utils/context'
 import Footer from '../component/Footer'
