@@ -5,6 +5,8 @@ import Context from '../utils/context'
 import 'firebase/firebase-database';
 import 'firebase/auth';
 import 'firebase/storage';
+import 'firebase/firestore';
+
 const QuillNoSSRWrapper = dynamic(import('react-quill'), {
     ssr: false,
     loading: () => <p>Loading ...</p>,
@@ -18,9 +20,7 @@ const QuillNoSSRWrapper = dynamic(import('react-quill'), {
 
 const Create = () => {
     const { firebase } = React.useContext(Context)
-
-    const [state, setState] = React.useState()
-    const quill = React.createRef()
+    const [post, setPost] = React.useState()
 
     const modules = {
         toolbar: [
@@ -59,18 +59,38 @@ const Create = () => {
         'video',
     ]
 
-    const handleImage = (e) => {
-        const temp = e.split('"')
+    const handleChange = async (e) => {
+        setPost(e)
+    }
+
+    const postToFirestore = async () => {
+        let keepImgUrl = []
+        let tempPost = post
+        const temp = post.split('"')
         const temp2 = temp.filter(item => item.startsWith('data:image/'))
-        setState(temp2)
+        for (let i in temp2) {
+            keepImgUrl.push(await uploadToStorage(temp2[i]))
+        }
+        for (let i in temp2) {
+            tempPost = tempPost.replace(temp2[i], keepImgUrl[i])
+        }
+        setPost(tempPost)
+        postArticle()
+    }
+
+    const uploadToStorage = async (data) => {
+        const ref = firebase.storage().ref(`images/${Date.now()}.png`)
+        const uploadTask = await ref.putString(data, 'data_url')
+        const result = await uploadTask.ref.getDownloadURL()
+        return result
     }
 
     const handleClick = e => {
         console.log(e)
     }
 
-    const handleFile = e => {
-        console.log(e.target.files[0])
+    const postArticle = () => {
+        firebase.firestore().collection('articles').add({ article: post })
     }
 
     React.useEffect(() => {
@@ -79,13 +99,17 @@ const Create = () => {
 
     return (
         <div>
-            <buton onClick={() => {
-                firebase.auth().signInWithEmailAndPassword('test@test.com', "123456")
-                const task = firebase.storage().ref('img/img.txt').putString('data:text/plain;base64,5b6p5Y+344GX44G+44GX44Gf77yB44GK44KB44Gn44Go44GG77yB')
-                task.on('state_changed', (snapshot) => { console.log(snapshot.ref.getDownloadURL().then(res => console.log(res))) })
-            }}>FileTest</buton>
-            <QuillNoSSRWrapper ref={quill} modules={modules} formats={formats} theme="snow" onChange={handleImage} onClick={handleClick} />
-            <button onClick={() => console.log(state)}>State</button>
+
+            <QuillNoSSRWrapper
+                modules={modules}
+                formats={formats}
+                theme="snow"
+                onChange={handleChange}
+                onClick={handleClick}
+            />
+
+            <buton onClick={postToFirestore}>บันทึกบทความ</buton>
+
             <style jsx>{`
             div {
                 grid-column: span 12;
