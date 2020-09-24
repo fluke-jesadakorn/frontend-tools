@@ -40,7 +40,7 @@ const NavigationBar = () => {
             {
                 <div ref={ref} onClick={hamburgerToggle} className="menu-navbar-container">
                     <span onClick={() => handleRoute('/')}>หน้าแรก</span>
-                    <span onClick={() => handleRoute('/Articles/Create')}>เขียนบทความ</span>
+                    <span onClick={() => handleRoute('/Create')}>เขียนบทความ</span>
                     <span>บริการ</span>
                     <span>เกี่ยวกับเรา</span>
                     <span>ติดต่อ</span>

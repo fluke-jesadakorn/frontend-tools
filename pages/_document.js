@@ -9,8 +9,13 @@ class MyDocument extends Document {
     render() {
         return (
             <Html>
-                <Head />
-                <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet"></link>
+                <Head>
+                    <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet"></link>
+                    <script
+                        async
+                        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+                    ></script>
+                </Head>
                 <body>
                     <Main />
                     <NextScript />
