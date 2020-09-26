@@ -1,32 +1,7 @@
 import React from 'react'
-import * as firebase from 'firebase/app'
-import 'firebase/firebase-database';
-import 'firebase/auth';
-import 'firebase/storage';
-import 'firebase/firestore';
-import { useRouter } from 'next/router'
+import firebase from '../../utils/firebaseUtils'
 
-const Article = ({ findTitle }) => {
-    // const { titleT } = useRouter().query
-    // const findTitle = titleT
-    const [news, setNews] = React.useState({
-        title: "",
-        urlToImage: "",
-        description: ""
-    })
-
-    const firebaseRef = firebase.firestore().collection('articles')
-
-    const initialNews = async () => {
-        const result = await firebaseRef.where('title', '==', findTitle).get()
-        if (!result.empty) {
-            result.forEach(res => setNews(res.data()))
-        }
-    }
-
-    React.useEffect(() => {
-        initialNews()
-    }, [])
+const Article = ({ news }) => {
 
     const { title, urlToImage, description } = news
 
@@ -39,10 +14,29 @@ const Article = ({ findTitle }) => {
     )
 }
 
-Article.getInitialProps = async ({ asPath }) => {
-    let sub = asPath.split('/')
-    sub = sub[sub.length - 1]
-    return { findTitle: sub }
+export async function getStaticPaths() {
+    const firebaseRef = firebase.firestore().collection('articles')
+    const result = await firebaseRef.get()
+
+    let paths = []
+
+    result.forEach(post => paths.push({ params: { title: post.data().title } }))
+
+    return { paths, fallback: true }
+}
+
+export async function getStaticProps({ params }) {
+    const firebaseRef = firebase.firestore().collection('articles')
+    const result = await firebaseRef.where('title', '==', params.title).get()
+    let news
+    if (!result.empty) {
+        result.forEach(res => news = res.data())
+    }
+    return {
+        props: {
+            news
+        }
+    }
 }
 
 export default Article

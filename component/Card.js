@@ -3,15 +3,12 @@ import Router from 'next/router'
 
 const Card = ({ title, img }) => {
 
-    const click = () => {
-        Router.push({
-            pathname: `/Articles`,
-            query: { title: title }
-        })
+    const handleGotoRoute = () => {
+        Router.push(`/Articles/${title}`)
     }
 
     return (
-        <div onClick={click}>
+        <div onClick={handleGotoRoute}>
 
             <img src={img} alt="img" />
             <p>{title}</p>

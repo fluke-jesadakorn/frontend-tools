@@ -2,61 +2,18 @@ import React from 'react'
 import Card from '../component/Card'
 import Context from '../utils/context'
 import Router from 'next/router'
-// import * as firebase from 'firebase/app'
-import 'firebase/firebase-database';
-import 'firebase/auth';
-import 'firebase/storage';
-import 'firebase/firestore';
+import firebase from '../utils/firebaseUtils'
 
-const Index = () => {
-    const { firebase } = React.useContext(Context)
-
-    const [lists, setLists] = React.useState({})
-    const [articles, setArticles] = React.useState([
-        {
-            title: "",
-            urlToImage: "",
-            description: "",
-        }
-    ])
-
-    // const { articles } = news
-
-    const initialValue = async () => {
-        let temp = []
-        const ref = await firebase.firestore().collection('articles').orderBy('timeStamp', 'desc').limit(5).get()
-        if (!ref.empty) {
-            ref.forEach(res => temp.push(res.data()))
-            setArticles(temp)
-        } else {
-            console.log('Empty Value')
-        }
-    }
+const Index = ({ articles }) => {
 
     const handleGotoRoute = (titleT) => {
-        Router.push(`Articles/${titleT}`)
+        Router.push(`/Articles/${titleT}`)
     }
-
-    React.useEffect(() => {
-        try {
-            (window.adsbygoogle = window.adsbygoogle || []).push({});
-        } catch (err) {
-            console.log(err);
-        }
-        initialValue()
-    }, []);
 
     return (
         <div className="articles-container">
 
             <div className="banner">
-                {/* <ins
-                    className="adsbygoogle adbanner-customize"
-                    style={{
-                        display: "block"
-                    }}
-                    data-ad-client="8999924984179147"
-                /> */}
             </div>
             <div className="hilight">
                 <div onClick={() => handleGotoRoute(articles[0].title)}>
@@ -75,7 +32,7 @@ const Index = () => {
                     <p dangerouslySetInnerHTML={{ __html: articles[0].description }}></p>
                 </div>
             </div>
-            <div className="list-news-card">
+            <div className="list-news-card" onClick={() => handleGotoRoute(articles[0].title)}>
                 {articles.map((item, key) => {
                     const { title, urlToImage, description } = item
                     return <Card key={key} title={title} img={urlToImage} description={description} />
@@ -197,16 +154,14 @@ const Index = () => {
 }
 
 Index.getInitialProps = async () => {
-
-    const articles = [
-        {
-            title: "lasdskadfpsdmcpvlmdsvpms",
-            urlToImage: "https://images.unsplash.com/photo-1560420713-b279b33e9abf?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1951&q=80",
-            description: "texxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxttexxt"
-        },
-    ]
-
-    return { news: { articles: articles } }
+    let temp = []
+    const ref = await firebase.firestore().collection('articles').orderBy('timeStamp', 'desc').limit(5).get()
+    if (!ref.empty) {
+        ref.forEach(res => temp.push(res.data()))
+    } else {
+        console.log('Empty Value')
+    }
+    return { articles: temp }
 }
 
 export default Index

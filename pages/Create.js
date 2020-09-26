@@ -16,7 +16,7 @@ const QuillNoSSRWrapper = dynamic(import('react-quill'), {
 /*
  * Quill editor formats
  * See https://quilljs.com/docs/formats/
- */
+*/
 
 const Create = ({ client }) => {
     const { firebase } = React.useContext(Context)
