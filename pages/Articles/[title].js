@@ -3,7 +3,21 @@ import firebase from '../../utils/firebaseUtils'
 
 const Article = ({ news }) => {
 
-    const { title, urlToImage, description } = news
+    const [newsState, setNewsState] = React.useState({
+        title: "",
+        urlToImage: "",
+        description: ""
+    })
+
+    React.useEffect(() => {
+        let clear = false
+        if (!clear && news) {
+            setNewsState(news)
+        }
+        return () => clear = true
+    }, [news])
+
+    const { title, urlToImage, description } = newsState
 
     return (
         <div>
@@ -22,7 +36,7 @@ export async function getStaticPaths() {
 
     result.forEach(post => paths.push({ params: { title: post.data().title } }))
 
-    return { paths, fallback: true }
+    return { paths, fallback: false }
 }
 
 export async function getStaticProps({ params }) {
