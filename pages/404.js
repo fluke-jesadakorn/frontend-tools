@@ -1,9 +1,11 @@
 import React from 'react'
 
-const Index = () => {
+const Error = () => {
     return (
-        <div></div>
+        <div>
+            404
+        </div>
     )
 }
 
-export default Index
+export default Error

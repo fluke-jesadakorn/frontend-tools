@@ -1,8 +1,17 @@
 import React from 'react'
+import Router from 'next/router'
 
 const Card = ({ title, img }) => {
+
+    const click = () => {
+        Router.push({
+            pathname: `/Articles`,
+            query: { title: title }
+        })
+    }
+
     return (
-        <div>
+        <div onClick={click}>
 
             <img src={img} alt="img" />
             <p>{title}</p>

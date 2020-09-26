@@ -2,11 +2,12 @@ import React from 'react'
 import dynamic from 'next/dynamic'
 import Context from '../utils/context'
 // import * as firebase from 'firebase/app'
+import Router from 'next/router'
 import 'firebase/firebase-database';
 import 'firebase/auth';
 import 'firebase/storage';
 import 'firebase/firestore';
-
+// import QuillNoSSRWrapper from 'react-quill'
 const QuillNoSSRWrapper = dynamic(import('react-quill'), {
     ssr: false,
     loading: () => <p>Loading ...</p>,
@@ -17,12 +18,12 @@ const QuillNoSSRWrapper = dynamic(import('react-quill'), {
  * See https://quilljs.com/docs/formats/
  */
 
-
-const Create = () => {
+const Create = ({ client }) => {
     const { firebase } = React.useContext(Context)
     const [post, setPost] = React.useState("")
     const [header, setHeader] = React.useState('')
     const [cover, setCover] = React.useState(null)
+    const [isClient, setIsClient] = React.useState(client)
 
     const modules = {
         toolbar: [
@@ -81,9 +82,11 @@ const Create = () => {
     }
 
     const uploadToStorage = async (data) => {
-        const ref = firebase.storage().ref(`images/${Date.now()}.png`)
+        const type = data.split(';')[0].split('data:image/')[1]
+        const ref = firebase.storage().ref(`images/${Date.now()}.${type}`)
         const uploadTask = await ref.putString(data, 'data_url')
         const result = await uploadTask.ref.getDownloadURL()
+        console.log(result)
         return result
     }
 
@@ -92,17 +95,20 @@ const Create = () => {
     }
 
     const postArticle = async (article) => {
-        const ref = firebase.storage().ref(`images/cover/${Date.now()}`)
-        const task = await ref.put(cover, { contentType: cover.type })
+        const imgType = cover.type.split('/')[1]
+        const ref = firebase.storage().ref(`images/cover/${Date.now()}.${imgType}`)
+        const task = await ref.put(cover, { contentType: imgType })
         const coverUrl = await task.ref.getDownloadURL()
         await firebase
             .firestore()
             .collection('articles')
-            .add({ title: header, urlToImage: coverUrl, description: article })
+            .add({ title: header, urlToImage: coverUrl, description: article, timeStamp: Date.now() })
+        alert('เพิ่มบทความของท่านแล้ว')
+        Router.push({ pathname: 'Articles', query: { title: header } })
     }
 
     React.useEffect(() => {
-
+        setIsClient(true)
     }, [])
 
     return (
@@ -120,16 +126,17 @@ const Create = () => {
                 <input name="hello" type="file" accept="image/*" onChange={(e) => setCover(e.target.files[0])} />
             </div>
             <div>
-                <QuillNoSSRWrapper
+                {isClient ? <QuillNoSSRWrapper
                     modules={modules}
                     formats={formats}
                     theme="snow"
                     onChange={handleChange}
                     onClick={handleClick}
-                />
+                /> : ""}
             </div>
 
-            <buton onClick={postToFirestore}>บันทึกบทความ</buton>
+            <button onClick={postToFirestore}>บันทึกบทความ</button>
+            <button onClick={() => console.log(post)}>Log Post</button>
 
             <style jsx>{`
             
@@ -139,13 +146,12 @@ const Create = () => {
                 } 
 
                 div > div:nth-child(2) > input {
-                    min-width: 100%;
+                    width: 100%;
                     height: 3rem;
                     font-size: 2rem;
                 }
 
                 div > div:nth-child(4) > input {
-                    min-width: 100%;
                 }
 
                 div > div:nth-child(5) {
@@ -165,6 +171,10 @@ const Create = () => {
         `}</style>
         </div >
     )
+}
+
+Create.getInitialProps = () => {
+    return { client: false }
 }
 
 export default Create

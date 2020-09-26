@@ -40,7 +40,7 @@ const NavigationBar = () => {
             {
                 <div ref={ref} onClick={hamburgerToggle} className="menu-navbar-container">
                     <span onClick={() => handleRoute('/')}>หน้าแรก</span>
-                    <span onClick={() => handleRoute('/Create')}>เขียนบทความ</span>
+                    {/* <span onClick={() => handleRoute('/Create')}>เขียนบทความ</span> */}
                     <span>บริการ</span>
                     <span>เกี่ยวกับเรา</span>
                     <span>ติดต่อ</span>
@@ -60,6 +60,7 @@ const NavigationBar = () => {
             }
 
             .menu-navbar-container {
+                min-height: 50vh; 
                 display: none;
                 flex-direction: column;
                 justify-content: space-around;
@@ -83,7 +84,9 @@ const NavigationBar = () => {
                     display: none;
                     background: #000;
                 }
+
                 div.menu-navbar-container {
+                    min-height: 15vh; 
                     grid-column: span 12;
                     display: flex;
                     flex-direction: row;
